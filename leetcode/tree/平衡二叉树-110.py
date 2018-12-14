@@ -14,17 +14,22 @@ class Solution:
         :type root: TreeNode
         :rtype: bool
         """
-        if not root:
-            return 0
-        left = self.isBalanced(root.left)
-        if left == -1:
-            return -1
-        right = self.isBalanced(root.right)
-        if right == -1:
-            return -1
-        if abs(left - right) > 1:
-            return -1
-        return max(left, right) + 1
+
+        def balance(root):
+            if not root:
+                return 0
+
+            left = balance(root.left)
+            if left == -1:
+                return -1
+            right = balance(root.right)
+            if right == -1:
+                return -1
+            if abs(left - right) > 1:
+                return -1
+            return max(left, right) + 1
+
+        return balance(root) != -1
 
 
 if __name__ == "__main__":
