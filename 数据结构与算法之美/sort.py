@@ -43,9 +43,11 @@ class Solution():
             sum = maxs_bucket[i]
 
         c = [0 for n in range(0, len(nums))]
-        for n in nums:
-            c[maxs_bucket[n] - 1] = n
-            maxs_bucket[n] -= 1
+        # 反过来排序实现稳定的排序
+        n = len(nums) - 1
+        while n >= 0:
+            c[maxs_bucket[nums[n]] - 1] = nums[n]
+            maxs_bucket[nums[n]] -= 1
         return c
 
     def radix_sort(self):
