@@ -32,18 +32,8 @@ class MinHeap():
             return None
         ret = self.heap[0]
         val = self.heap.pop()
-        # 第一版
-        # while i < len(self.heap):
-        #     left = 2 * i + 1
-        #     if left < len(self.heap):
-        #         if left < len(self.heap) - 1 and self.heap[left] > self.heap[left + 1]:
-        #             left += 1
-        #         if self.heap[i] <= self.heap[left]:
-        #             break
-        #         self.heap[i], self.heap[left] = self.heap[left], self.heap[i]
-        #     i = left
-
-        # 优化版
+        if not self.heap:
+            return ret
         i = 0
         left = 1
         while left < len(self.heap):
@@ -65,18 +55,32 @@ class MinHeap():
             return
 
         val = self.heap.pop()
-        while i > 0:
-            parent = (i - 1) >> 1
-            if self.heap[parent] <= self.heap[i]:
-                break
-            self.heap[i] = self.heap[parent]
-            i = parent
+        if not self.heap or i == len(self.heap):
+            return
+
+        parent = (i - 1) >> 1
+        if self.heap[parent] > val and parent >= 0:
+            while parent > 0 and self.heap[parent] > val:
+                self.heap[i] = self.heap[parent]
+                i = parent
+                parent = (parent - 1) >> 1
+        elif parent < 0 or self.heap[parent] < val:
+            left = i * 2 + 1
+            while left < len(self.heap):
+                if left + 1 < len(self.heap) and self.heap[left] > self.heap[left + 1]:
+                    left += 1
+                if self.heap[left] >= val:
+                    break
+                self.heap[i] = self.heap[left]
+                i = left
+                left = left * 2 + 1
 
         self.heap[i] = val
+
         return
 
     def index(self, data):
-        for i, v in enumerate(data):
+        for i, v in enumerate(self.heap):
             if v == data:
                 return i
         return -1
@@ -86,4 +90,20 @@ class MinHeap():
 
 
 if __name__ == "__main__":
-    pass
+    g = MinHeap()
+    g.push(1)
+    g.push(6)
+    g.push(2)
+    g.push(7)
+    g.push(8)
+    g.push(3)
+    g.push(4)
+    print(g)
+    print(g.popmin())
+    print(g)
+    # print(g.popmin())
+    # print(g.popmin())
+    # print(g.popmin())
+    # print(g.popmin())
+    # print(g.popmin())
+#
