@@ -6,38 +6,37 @@ class Solution:
         :type nums: List[int]
         :rtype: int
        """
-        # if not nums:
-        #     return 0
         lens = len(nums)
-        ret = lens + 1
         i = 0
+        ret = lens + 1
         while i < lens:
             j = i + 1
-            sum = nums[i]
-            while j < lens and sum < s:
-                sum += nums[j]
+            sums = nums[i]
+            while j < lens and sums < s:
+                sums += nums[j]
                 j += 1
-            if sum >= s and ret > j - i:
+
+            if sums >= s and ret > j - i:
                 ret = j - i
             i += 1
-        return ret if ret <= lens else 0
+        return ret if ret < lens else 0
 
     def minSubArrayLen2(self, s, nums):
         lens = len(nums)
-        r, l = 0, 0
-        sum_all = 0
-        min_len = lens + 1
-        while l < lens:
-            if r < lens and sum_all < s:
-                sum_all += nums[r]
-                r += 1
+        l1, l2 = 0, 0
+        ret = lens + 1
+        sums = 0
+        # 多画图
+        while l1 < lens or l2 < lens:
+            if l1 < lens and sums < s:
+                sums += nums[l1]
+                l1 += 1
             else:
-                sum_all -= nums[l]
-                l += 1
-            if sum_all >= s and r - l < min_len:
-                min_len = r - l
-
-        return min_len if min_len <= lens else 0
+                if sums >= s and ret > l1 - l2:
+                    ret = l1 - l2
+                sums -= nums[l2]
+                l2 += 1
+        return ret if ret < lens else 0
 
 
 if __name__ == "__main__":
