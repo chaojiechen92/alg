@@ -7,6 +7,29 @@ class TreeNode:
 
 
 class Solution:
+    # 解法1 利用中序遍历　=> array 升序　
+    def isValidBst1(self, root):
+        """
+                :type root: TreeNode
+                :rtype: bool
+                """
+        self.ret = True
+        self.prev = None
+
+        def helper(root):
+            if not root:
+                return
+            if self.ret:
+                helper(root.left)
+            if self.prev and self.prev.val > root.val:
+                self.ret = False
+            self.prev = root
+            if self.ret:
+                helper(root.right)
+            return
+
+        return self.ret
+
     def isValidBST(self, root):
         """
         :type root: TreeNode
